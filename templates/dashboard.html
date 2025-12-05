@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Dashboard</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="{{ url_for('home') }}">BnB Dashboard</a>
+        <div class="ms-auto">
+            <a href="{{ url_for('add_property') }}" class="btn btn-light">Add New Property</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+
+    <h2 class="mb-4">Your Properties</h2>
+
+    {% if properties %}
+        <div class="row">
+            {% for property in properties %}
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm">
+
+                        <!-- Property Image -->
+                        {% if property.image %}
+                            <img src="{{ url_for('static', filename='uploads/' ~ property.image) }}"
+                                 class="card-img-top" alt="Property Image" style="height: 200px; object-fit: cover;">
+                        {% else %}
+                            <img src="https://via.placeholder.com/400x200?text=No+Image"
+                                 class="card-img-top" style="height: 200px; object-fit: cover;">
+                        {% endif %}
+
+                        <div class="card-body">
+                            <h5 class="card-title">{{ property.title }}</h5>
+                            <p class="card-text">{{ property.description[:100] }}...</p>
+                            <p class="text-muted">{{ property.location }}</p>
+                            <p><strong>£{{ property.price_per_night }} / night</strong></p>
+                        </div>
+
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            You have not added any properties yet.
+        </div>
+    {% endif %}
+
+</div>
+
+</body>
+</html>
